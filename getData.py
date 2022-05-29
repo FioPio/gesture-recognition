@@ -31,7 +31,7 @@ def main():
     remainigFrames = -1
     with mp_hands.Hands( model_complexity=0,
                          min_detection_confidence=0.5,
-                         min_tracking_confidence=0.5) as hands:
+                         min_tracking_confidence=0.5) as hands: #max_num_hands = 1
         while cap.isOpened():
             # Trying to get a more stable framerate
             if (len (timeWindow)<1) or (t()-timeWindow[-1]>=MINFREQ ):
@@ -95,7 +95,6 @@ def main():
                         num = int(chr(key))                 # Store the number
                         print (f'[INFO] Adding gesture to {num}')
                         remainigFrames=FRAMESSTORE
-
 
                 else:
                     if len(handsList)>0:
