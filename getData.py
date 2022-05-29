@@ -13,16 +13,22 @@ from hand import Hand
 
 mp_hands = mp.solutions.hands
 
-DATA_FILE = 'training_data.txt'
+DATA_FILE = 'training_data/data'
 timeWindowSize = 30
 
 FPS = 20.0
 MINFREQ = (1/FPS)* 0.98 # Getting some margin just in case
 
+# Frames to store
+FRAMESSTORE = FPS
+
+
 def main():
     # For webcam input:
     cap = cv2.VideoCapture(0)
     timeWindow = []
+    num = -1
+    remainigFrames = -1
     with mp_hands.Hands( model_complexity=0,
                          min_detection_confidence=0.5,
                          min_tracking_confidence=0.5) as hands:
@@ -82,17 +88,30 @@ def main():
 
                 #wait and get the key pressed
                 key = cv2.waitKey(5)
-                if key & 0xFF == 27: # If ESC is pressed, exit
-                    break
-                elif key >= ord('0') and key<=ord('9'): # If a number is pressed
-                    num = int(chr(key))                 # Store the number
-                    print (f'[INFO] Adding gesture to {num}')
+                if remainigFrames == -1:
+                    if key & 0xFF == 27: # If ESC is pressed, exit
+                        break
+                    elif key >= ord('0') and key<=ord('9'): # If a number is pressed
+                        num = int(chr(key))                 # Store the number
+                        print (f'[INFO] Adding gesture to {num}')
+                        remainigFrames=FRAMESSTORE
+
+
+                else:
                     if len(handsList)>0:
-                        pass
-                    #     normalized_list.insert(0,num)
-                    #     with open(DATA_FILE, 'a') as f:
-                    #         f.write(f'{normalized_list}')
-                    #         f.close()
+                        with open(DATA_FILE+str(num)+'.txt', 'a') as f:
+                            f.write(f'{handsList[-1].normalized_landmarks}')
+                            f.close()
+                        remainigFrames = remainigFrames-1
+                        if remainigFrames==0:
+                            with open(DATA_FILE+str(num)+'.txt', 'a') as f:
+                                f.write('\n')
+                                f.close()
+                            remainigFrames = -1
+                            num = -1
+                            print('[INFO] Stoped the recording')
+
+
 
 
 
