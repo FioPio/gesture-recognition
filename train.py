@@ -2,7 +2,8 @@
 # -*- coding: utf-8 -*-
 
 DATA_FILE = 'training_data/data'
-NCLASSES  = 4
+NCLASSES  = 10
+MODEL = 'models/modelv3.hdf5'
 
 ################################################################################
 #
@@ -39,7 +40,7 @@ def loadData(classnumber):
         f.close()
 
     # Removing unnecessary symbols
-    lines = [line.replace('[', '').replace(']',',').replace('\n','').split(',') for line in bkgd]
+    lines = [line.replace('[', '').replace(']','').replace('\n','').split(',') for line in bkgd]
 
     # Getting the individual strings of just floats
     data = []
@@ -88,16 +89,14 @@ X_train, X_test, y_train, y_test = train_test_split(X, y, train_size = 0.75, ran
 ################################################################################
 import tensorflow as tf
 
-MODEL = 'models/modelv2.hdf5'
-
 model = tf.keras.models.Sequential([
     tf.keras.layers.Input((len(X_train[0]), )),
     tf.keras.layers.Dropout(0.2),
-    tf.keras.layers.Dense(800, activation='relu'),
+    tf.keras.layers.Dense(40, activation='relu'),
     tf.keras.layers.Dropout(0.4),
-    tf.keras.layers.Dense(400, activation='relu'),
+    tf.keras.layers.Dense(60, activation='relu'),
     tf.keras.layers.Dropout(0.4),
-    tf.keras.layers.Dense(20, activation='relu'),
+    tf.keras.layers.Dense(40, activation='relu'),
     tf.keras.layers.Dense(NCLASSES, activation='softmax')
 ])
 
