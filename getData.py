@@ -16,7 +16,7 @@ mp_hands = mp.solutions.hands
 DATA_FILE = 'training_data.txt'
 timeWindowSize = 30
 
-FPS = 25.0
+FPS = 20.0
 MINFREQ = (1/FPS)* 0.98 # Getting some margin just in case
 
 def main():
