@@ -30,3 +30,22 @@ To adquire data and check that everything is working you may run the `getData` s
 ```bash
 python getData.py
 ```
+
+
+You may record postures by pressing a key number between 0 and 9 (should be done in order) meanwhile you have the pose with your hand. The data is saved in `training_data`, so this folder should be created. Finally, the train may be run by just:
+
+```bash
+python train.py 
+``` 
+
+which will train the model and save it under the model name specified in the code in the `model` folder.
+
+# Running the predictor
+
+To run the predictor :
+
+```bash
+python predict.py
+```
+
+This will allow you to control the windows on the screen by gestures of the right hand that you have previously trained.
