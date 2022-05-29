@@ -88,7 +88,7 @@ X_train, X_test, y_train, y_test = train_test_split(X, y, train_size = 0.75, ran
 ################################################################################
 import tensorflow as tf
 
-MODEL = 'models/modelv1.hdf5'
+MODEL = 'models/modelv2.hdf5'
 
 model = tf.keras.models.Sequential([
     tf.keras.layers.Input((len(X_train[0]), )),

@@ -8,10 +8,13 @@ from hand import Hand
 
 import tensorflow as tf
 import numpy as np
+from pynput.keyboard import Key, Controller
+
+keyboard = Controller()
 
 mp_hands = mp.solutions.hands
 
-MODEL = 'models/modelv1.hdf5'
+MODEL = 'models/modelv2.hdf5'
 timeWindowSize = 30
 
 THRESHOLD = 0.80
@@ -31,6 +34,7 @@ def main():
     cap = cv2.VideoCapture(0)
     timeWindow = []
     gestureWindow=[]
+    scrollingMenu = False
     with mp_hands.Hands( model_complexity=0,
                          min_detection_confidence=0.5,
                          min_tracking_confidence=0.5) as hands: #max_num_hands = 1
@@ -83,6 +87,19 @@ def main():
                                 print(f'[INFO] identifyed {prediction[0]}')
                                 # Removes the window to avoid repetitions
                                 gestureWindow=[]
+                                if prediction[0] == 1:
+                                    if not scrollingMenu:
+                                        keyboard.press(Key.alt)
+                                        keyboard.press(Key.tab)
+                                        keyboard.release(Key.tab)
+                                        scrollingMenu=True
+                                    else:
+                                        keyboard.release(Key.alt)
+                                        scrollingMenu=False
+                                elif prediction[0]==2:
+                                    keyboard.press(Key.left)
+                                    keyboard.release(Key.left)
+
 
                 # Flip the image horizontally for a selfie-view display.
                 image =  cv2.flip(image, 1)
