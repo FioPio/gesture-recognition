@@ -3,8 +3,7 @@
 
 import cv2
 import mediapipe as mp
-import copy
-import itertools
+
 from time import time as t
 from hand import Hand
 
@@ -109,10 +108,6 @@ def main():
                             remainigFrames = -1
                             num = -1
                             print('[INFO] Stoped the recording')
-
-
-
-
 
     cap.release()
 
